@@ -214,4 +214,3 @@ func totalPages(total int64, limit int) int {
 	}
 	return pages
 }
-

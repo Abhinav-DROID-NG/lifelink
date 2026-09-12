@@ -9,9 +9,9 @@ import (
 
 // Server wires the store, config and logger into HTTP handlers.
 type Server struct {
-	store         *store.Store
-	jwtSecret     string
-	logger        *slog.Logger
+	store          *store.Store
+	jwtSecret      string
+	logger         *slog.Logger
 	allowedOrigins []string
 }
 

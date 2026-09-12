@@ -24,17 +24,17 @@ type User struct {
 
 // DonorProfile holds extended donor information, one per user.
 type DonorProfile struct {
-	ID              int64      `json:"id"`
-	UserID          int64      `json:"user_id"`
-	BloodGroup      string     `json:"blood_group"`
-	DateOfBirth     time.Time  `json:"-"`
-	Gender          string     `json:"gender"`
-	City            string     `json:"city"`
-	Address         string     `json:"-"`
-	Available       bool       `json:"available"`
+	ID               int64      `json:"id"`
+	UserID           int64      `json:"user_id"`
+	BloodGroup       string     `json:"blood_group"`
+	DateOfBirth      time.Time  `json:"-"`
+	Gender           string     `json:"gender"`
+	City             string     `json:"city"`
+	Address          string     `json:"-"`
+	Available        bool       `json:"available"`
 	LastDonationDate *time.Time `json:"last_donation_date"`
-	CreatedAt       time.Time  `json:"created_at"`
-	UpdatedAt       time.Time  `json:"updated_at"`
+	CreatedAt        time.Time  `json:"created_at"`
+	UpdatedAt        time.Time  `json:"updated_at"`
 }
 
 // Donor is the public-facing donor view used by search results and profiles.

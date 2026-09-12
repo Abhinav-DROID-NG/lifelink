@@ -53,9 +53,9 @@ func errInvalidStatus() *AppError {
 }
 
 type response struct {
-	Success bool            `json:"success"`
-	Data    any             `json:"data,omitempty"`
-	Error   *errorBody      `json:"error,omitempty"`
+	Success bool       `json:"success"`
+	Data    any        `json:"data,omitempty"`
+	Error   *errorBody `json:"error,omitempty"`
 }
 
 type errorBody struct {
@@ -99,7 +99,7 @@ var validBloodGroups = map[string]bool{
 var validGenders = map[string]bool{"male": true, "female": true, "other": true}
 
 func isValidBloodGroup(g string) bool { return validBloodGroups[g] }
-func isValidGender(g string) bool      { return validGenders[g] }
+func isValidGender(g string) bool     { return validGenders[g] }
 
 func isValidEmail(email string) bool {
 	at := strings.LastIndex(email, "@")
