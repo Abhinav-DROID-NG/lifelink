@@ -1,0 +1,23 @@
+# Environment / secrets
+.env
+.env.local
+*.env
+
+# Node / frontend
+node_modules/
+dist/
+frontend/dist/
+
+# Go
+backend/bin/
+*.test
+backend/coverage/
+
+# Editor / OS
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Logs
+*.log
