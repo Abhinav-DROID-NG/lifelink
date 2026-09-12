@@ -3,7 +3,6 @@ package httpapi
 import (
 	"context"
 	"errors"
-	"log/slog"
 	"net/http"
 	"runtime/debug"
 	"strings"

@@ -140,6 +140,17 @@ func parsePagination(values func(string) string) (page, limit int) {
 	return page, limit
 }
 
+func calcTotalPages(total int64, limit int) int {
+	if limit <= 0 {
+		return 0
+	}
+	pages := int(total) / limit
+	if int(total)%limit != 0 {
+		pages++
+	}
+	return pages
+}
+
 // ---------------------------------------------------------------------------
 // Context helpers
 // ---------------------------------------------------------------------------
