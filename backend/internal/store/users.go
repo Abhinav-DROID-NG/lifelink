@@ -31,6 +31,43 @@ func (s *Store) CreateUser(ctx context.Context, u *models.User) error {
 	return nil
 }
 
+// CreateUserWithProfile creates a user and their donor profile atomically.
+func (s *Store) CreateUserWithProfile(ctx context.Context, u *models.User, p *models.DonorProfile) error {
+	tx, err := s.pool.Begin(ctx)
+	if err != nil {
+		return fmt.Errorf("begin register tx: %w", err)
+	}
+	defer tx.Rollback(ctx)
+
+	err = tx.QueryRow(ctx, `
+		INSERT INTO users (name, email, password_hash, phone, role)
+		VALUES ($1, $2, $3, $4, 'user')
+		RETURNING id, created_at, updated_at`,
+		u.Name, u.Email, u.PasswordHash, u.Phone).
+		Scan(&u.ID, &u.CreatedAt, &u.UpdatedAt)
+	if err != nil {
+		if isUniqueViolation(err) {
+			return ErrEmailTaken
+		}
+		return fmt.Errorf("create user in tx: %w", err)
+	}
+
+	err = tx.QueryRow(ctx, `
+		INSERT INTO donor_profiles (user_id, blood_group, date_of_birth, gender, city, address, available)
+		VALUES ($1, $2, $3, $4, $5, $6, $7)
+		RETURNING id, created_at, updated_at`,
+		u.ID, p.BloodGroup, p.DateOfBirth, p.Gender, p.City, p.Address, p.Available).
+		Scan(&p.ID, &p.CreatedAt, &p.UpdatedAt)
+	if err != nil {
+		return fmt.Errorf("create donor profile in tx: %w", err)
+	}
+
+	if err := tx.Commit(ctx); err != nil {
+		return fmt.Errorf("commit register tx: %w", err)
+	}
+	return nil
+}
+
 // GetUserByEmail finds a user by case-insensitive email.
 func (s *Store) GetUserByEmail(ctx context.Context, email string) (*models.User, error) {
 	u := &models.User{}
